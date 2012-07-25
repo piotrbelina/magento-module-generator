@@ -1,0 +1,16 @@
+{
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "http://github.com/symfony/Console.git"
+		}
+	],
+
+    "require": {
+        "symfony/console": "dev-master"
+    },
+
+    "autoload": {
+        "psr-0": { "Piotr": "" }
+    }
+}
