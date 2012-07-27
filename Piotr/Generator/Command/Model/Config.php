@@ -13,6 +13,7 @@ class Config {
     protected $withSetup = false;
     protected $active = false;
     protected $path = '';
+    protected $name = '';
     
     /**
      * 
@@ -96,5 +97,15 @@ class Config {
     public function setPath($path) {
         $this->path = $path;
     }
+    
+    public function getName() {
+        return $this->name;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+
 
 }
