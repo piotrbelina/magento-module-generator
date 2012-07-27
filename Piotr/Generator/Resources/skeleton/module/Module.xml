@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <{{ config.getNamespace }}_{{ config.getModule }}>
+            <active>{{ config.getActive }}</active>
+            <codePool>{{ config.getCodePool }}</codePool>
+        </{{ config.getNamespace }}_{{ config.getModule }}>
+    </modules>
+</config>

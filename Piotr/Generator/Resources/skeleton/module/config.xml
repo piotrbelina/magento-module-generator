@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <{{ config.getNamespace }}_{{ config.getModule }}>
+            <version>0.0.1</version>
+        </{{ config.getNamespace }}_{{ config.getModule }}>
+    </modules>
+{% if config.getWithControllers %}
+    <frontend>
+        <routers>
+            <{{ config.getModule | lower }}>
+                <use>standard</use>
+                <args>
+                    <module>{{ config.getNamespace }}_{{ config.getModule }}</module>
+                    <frontName>{{ config.getModule | lower }}</frontName>
+                </args>
+            </{{ config.getModule | lower }}>
+        </routers>
+        <layout>
+            <updates>
+                <{{ config.getModule | lower }}>
+                    <file>{{ config.getModule | lower }}.xml</file>
+                </{{ config.getModule | lower }}>
+            </updates>
+        </layout>
+    </frontend>
+{% endif %}
+    <global>
+{% if config.getWithModel %}
+        <models>
+            <{{ config.getModule | lower }}>
+                <class>{{ config.getNamespace }}_{{ config.getModule }}_Model</class>
+                <resourceModel>{{ config.getModule | lower }}_mysql4</resourceModel>
+            </{{ config.getModule | lower }}>
+            <{{ config.getModule | lower }}_mysql4>
+                <class>{{ config.getNamespace }}_{{ config.getModule }}_Model_Mysql4</class>
+                <entities>
+                    <{{ config.getModule | lower }}>
+                        <table>{{ config.getModule | lower }}</table>
+                    </{{ config.getModule | lower }}>
+                </entities>
+            </{{ config.getModule | lower }}_mysql4>
+        </models>
+{% endif %}
+        <resources>
+            <{{ config.getModule | lower }}_setup>
+                <setup>
+                    <module>{{ config.getNamespace }}_{{ config.getModule }}</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </{{ config.getModule | lower }}_setup>
+            <{{ config.getModule | lower }}_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </{{ config.getModule | lower }}_write>
+            <{{ config.getModule | lower }}_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </{{ config.getModule | lower }}_read>
+        </resources>
+{% if config.getWithBlock %}
+        <blocks>
+            <{{ config.getModule | lower }}>
+                <class>{{ config.getNamespace }}_{{ config.getModule }}_Block</class>
+            </{{ config.getModule | lower }}>
+        </blocks>
+{% endif %}
+{% if config.getWithHelper %}
+        <helpers>
+            <{{ config.getModule | lower }}>
+                <class>{{ config.getNamespace }}_{{ config.getModule }}_Helper</class>
+            </{{ config.getModule | lower }}>
+        </helpers>
+{% endif %}
+    </global>
+</config>
