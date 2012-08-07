@@ -2,7 +2,7 @@
 <config>
     <modules>
         <{{ config.getNamespace }}_{{ config.getModule }}>
-            <active>{{ config.getActive }}</active>
+            <active>{% if config.getActive %}true{% else %}false{% endif %}</active>
             <codePool>{{ config.getCodePool }}</codePool>
         </{{ config.getNamespace }}_{{ config.getModule }}>
     </modules>

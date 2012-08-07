@@ -106,6 +106,8 @@ class Config {
         $this->name = $name;
     }
 
-
+    public function getModule() {
+        return $this->getName();
+    }
 
 }

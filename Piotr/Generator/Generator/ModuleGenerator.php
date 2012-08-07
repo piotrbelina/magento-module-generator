@@ -46,28 +46,15 @@ class ModuleGenerator extends Generator
         
         $this->generateConfig();
 
-        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), str_replace('\\', '/', $this->entity));
-
-        if (!file_exists($dir)) {
-            mkdir($dir, 0777);
+        if ($this->config->getWithControllers()) {
+            $this->generateControllers();
         }
 
-        $this->generateIndexView($dir);
-
-        if (in_array('show', $this->actions)) {
-            $this->generateShowView($dir);
+        if ($this->config->getWithHelper()) {
+            $this->generateHelper();
         }
 
-        if (in_array('new', $this->actions)) {
-            $this->generateNewView($dir);
-        }
-
-        if (in_array('edit', $this->actions)) {
-            $this->generateEditView($dir);
-        }
-
-        $this->generateTestClass();
-        $this->generateConfiguration();
+        return true;
     }
 
     /**
@@ -76,10 +63,9 @@ class ModuleGenerator extends Generator
      */
     private function generateConfig()
     {
-        if (!in_array($this->format, array('yml', 'xml', 'php'))) {
-            return;
+        if ('' == $this->config->getName()) {
+            throw new \InvalidArgumentException('No module name given');
         }
-
         $target = sprintf(
             '%s/app/code/%s/%s/%s/etc/config.xml',
             $this->config->getPath(),
@@ -87,8 +73,50 @@ class ModuleGenerator extends Generator
             $this->config->getNamespace(),
             $this->config->getName()            
         );
-
+        
         $this->renderFile($this->skeletonDir, 'config.xml', $target, array(
+            'config'            => $this->config,
+        ));
+        
+        
+        $target = sprintf(
+            '%s/app/etc/modules/%s_%s.xml',
+            $this->config->getPath(),
+            $this->config->getNamespace(),
+            $this->config->getName()            
+        );
+        
+        $this->renderFile($this->skeletonDir, 'Module.xml', $target, array(
+            'config'            => $this->config,
+        ));        
+    }
+    
+    private function generateControllers()
+    {
+        $target = sprintf(
+            '%s/app/code/%s/%s/%s/controllers/IndexController.php',
+            $this->config->getPath(),
+            $this->config->getCodePool(),
+            $this->config->getNamespace(),
+            $this->config->getName()            
+        );
+        
+        $this->renderFile($this->skeletonDir, 'IndexController.php', $target, array(
+            'config'            => $this->config,
+        ));
+    }
+    
+    private function generateHelper()
+    {
+        $target = sprintf(
+            '%s/app/code/%s/%s/%s/Helper/Data.php',
+            $this->config->getPath(),
+            $this->config->getCodePool(),
+            $this->config->getNamespace(),
+            $this->config->getName()            
+        );
+        
+        $this->renderFile($this->skeletonDir, 'Data.php', $target, array(
             'config'            => $this->config,
         ));
     }
